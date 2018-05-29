@@ -1,8 +1,12 @@
 <header class="row">
     <nav class="col-md-8 col-mdoffset-2">
         <ul class="nav nav-pills">
-            <li><a>Messanger</a></li>
-            <li><a>Authantication</a></li>
+            <li routerLinkActive="active">
+                <a [routerLink]="['/messages']">Messanger</a>
+            </li>
+            <li routerLinkActive="active">
+                <a [routerLink]="['/auth']">Authantication</a>
+            </li>
         </ul>
     </nav>
 </header>
