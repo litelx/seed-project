@@ -20,15 +20,12 @@ import { MessageService } from './message.service';
 export class MessageListComponent implements OnInit {
     messages: Message[]
 
-    // messages: Message[] = [
-      // new Message('A message', 'Litel'),
-      // new Message('A message 2', 'Litel'),
-      // new Message('A third message', 'Litel'),
-    // ]
-
     constructor(private messageService: MessageService) {}
     
     ngOnInit() {
-      this.messages = this.messageService.getMessages()
+      this.messageService.getMessages()
+      .subscribe((messages: Message[]) => {
+          this.messages = messages
+        })
     }
 }
