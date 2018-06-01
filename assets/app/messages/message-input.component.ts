@@ -14,6 +14,10 @@ export class MessageInputComponent {
   onSubmit(form: NgForm) {
     const message = new Message(form.value.content, 'litel')
     this.messageService.addMessage(message)
+      .subscribe(
+        data => console.log(data),
+        error => console.error(error)
+      )
     form.resetForm()
   }
 }

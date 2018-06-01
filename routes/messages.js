@@ -1,11 +1,12 @@
 var express = require('express')
-var router = express.router()
+var router = express.Router()
 
 var Message = require('../models/message')
 router.post('', function(req, res, next) {
-    let message = new Message({
+    var message = new Message({
         content: req.body.content, 
     })
+    console.log(message)
     message.save(function(err, result) {
         if (err) {
             return res.status(500).json({
