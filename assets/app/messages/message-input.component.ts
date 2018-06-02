@@ -15,11 +15,11 @@ export class MessageInputComponent implements OnInit {
   onSubmit(form: NgForm) {
     if (this.message) {
       this.message.content = form.value.content
+      this.messageService.updateMessage(this.message)
+      .subscribe(
+        result => console.log(result),
+      )
       this.message = null
-      // this.messageService.updateMessage(this.message)
-      //   .subscribe(
-      //     (message: Message) => this.message = message          
-      //   )
     } else {
       const message = new Message(form.value.content, 'litel')
       this.messageService.addMessage(message)

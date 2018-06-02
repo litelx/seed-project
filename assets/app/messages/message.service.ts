@@ -13,34 +13,44 @@ export class MessageService {
   constructor(private http: Http) {}
 
   addMessage(message: Message) {
-    this.messages.push(message)
+    // this.messages.push(message)
     const body = JSON.stringify(message)
     const headers = new Headers({'Content-Type': 'application/json'})
     return this.http.post('http://localhost:8082/message', body, {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()))
+    .map((response: Response) => {
+      const result = response.json()
+      const message = new Message(result.obj.content, 'litel', result.obj._id, null)
+      this.messages.push(message)
+      return message
+      })
+    .catch((error: Response) => Observable.throw(error.json()))
   }
-  
+
   getMessages() {
     return this.http.get('http://localhost:8082/message')
-      .map((response: Response) => {
-        const messages = response.json().obj
+    .map((response: Response) => {
+      const messages = response.json().obj
         let tranformedMessages: Message[] = []
         for (let message of messages) {
-          tranformedMessages.push(new Message(message.content, message.id, 'litel', null))
+          tranformedMessages.push(new Message(message.content, 'litel', message._id, null))
         }
         this.messages = tranformedMessages
         return tranformedMessages
       }
     )
-      .catch((error: Response) => Observable.throw(error.json()));
+    .catch((error: Response) => Observable.throw(error.json()));
   }
-
+  
   editMessage(message: Message) {
     this.messageIsEdited.emit(message)
   }
-
+  
   updateMessage(message: Message) {
+    const body = JSON.stringify(message)
+    const headers = new Headers({'Content-Type': 'application/json'})
+    return this.http.patch('http://localhost:8082/message/' + message.messageId, body, {headers: headers})
+      .map((response: Response) => response.json())
+      .catch((error: Response) => Observable.throw(error.json()))
     
   }
 

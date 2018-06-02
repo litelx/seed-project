@@ -32,11 +32,41 @@ router.post('/', function(req, res, next) {
             })
         }
         res.status(201).json({
-            message: "Message was saved",
+            message: 'Message was saved',
             obj: result
         })
 
     } )
+})
+
+router.patch('/:id', function(req, res, next) {
+    Message.findById(req.params.id, function(err, message) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An Error occurred while trying to retrive data (a message) to update',
+                error: err
+            })
+        }
+        if (!message) {
+            return res.status(500).json({
+                title: 'No message found!',
+                error: {message: 'Message not found'}
+            })
+        }
+        message.content = req.body.content
+        message.save(function(err, result) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An Error occurred while trying to save data (a message) to database',
+                    error: err
+                })
+            }
+            res.status(200).json({
+                message: 'Message was updated',
+                obj: result
+            })
+        })
+    })
 })
 
 module.exports = router
