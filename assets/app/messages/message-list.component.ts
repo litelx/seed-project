@@ -9,7 +9,6 @@ import { MessageService } from './message.service';
     
       <app-message 
         [message]="message" 
-        (editClicked)="message.content = $event" 
         *ngFor="let message of messages"></app-message>
 
     </div>
