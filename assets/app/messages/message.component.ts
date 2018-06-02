@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Message } from "./message.model";
 import { MessageService } from "./message.service";
+import { observable } from "rxjs";
 
 @Component({
     selector: 'app-message',
@@ -33,5 +34,8 @@ export class MessageComponent {
 
     onDelete() {
         this.messageService.deleteMessage(this.message)
+            .subscribe(
+                result => console.log(result)       
+            )
     }
 }
